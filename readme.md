@@ -1,2 +1,0 @@
-#qalight
-Hello
