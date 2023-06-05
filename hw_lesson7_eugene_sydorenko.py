@@ -9,7 +9,7 @@ def read_integer_input():
 
 
 num = read_integer_input()
-if num is not None:
+if num:
     print("The entered integer is:", num)
 
 
@@ -22,10 +22,9 @@ def read_and_sum_inputs():
         num1 = int(input1)
         num2 = int(input2)
         result = num1 + num2
-        return result
     except ValueError:
         result = input1 + input2
-        return result
+    return result
 
 
 result = read_and_sum_inputs()
