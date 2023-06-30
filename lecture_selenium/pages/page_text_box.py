@@ -75,6 +75,7 @@ class PageTextBox:
         return field.text.split(':')[1].strip()
 
     def submit(self):
+        self.driver.execute_script('arguments[0].scrollIntoView(true);', *self.__submit_btn_loc)
         button = self.__driver.find_element(*self.__submit_btn_loc)
         button.click()
 

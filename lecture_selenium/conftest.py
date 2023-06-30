@@ -25,6 +25,6 @@ def chrome(request):
     driver = webdriver.Chrome(service=service, options=options)
     driver.set_page_load_timeout(30)
     if request.cls:
-        request.cls.__driver = driver
+        request.cls.driver = driver
     yield driver
     driver.quit()
