@@ -1,6 +1,7 @@
 from selenium.common import NoSuchElementException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webdriver import  WebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -21,6 +22,7 @@ class PageTextBox:
         self.__output_perm_addr: tuple = (By.CSS_SELECTOR, 'p#permanentAddress')
 
     def open(self) -> 'PageTextBox':
+        self.__driver.set_page_load_timeout(90)
         self.__driver.get(self.page_url)
         element = self.__driver.find_element(By.CSS_SELECTOR, 'div.main-header')
         assert element.is_displayed()
@@ -77,13 +79,9 @@ class PageTextBox:
         return field.text.split(':')[1].strip()
 
     def submit(self):
-        wait = WebDriverWait(self.__driver, 10)
-        element = wait.until(expected_conditions.visibility_of_element_located(self.__submit_btn_loc))
-
-        # Scroll to the element using JavaScript
-        self.__driver.execute_script('arguments[0].scrollIntoView(true);', element)
-
         button = self.__driver.find_element(*self.__submit_btn_loc)
+        action = ActionChains(self.__driver).scroll_to_element(button)
+        action.perform()
         button.click()
 
     def check_if_output_test_areas_exist(self) -> bool:
