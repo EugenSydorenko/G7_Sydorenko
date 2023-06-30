@@ -1,0 +1,29 @@
+# https://music.youtube.com/playlist?list=RDCLAK5uy_nAJDvLXRZVjXclL2N3IjoCceuaM5T7o6Q
+
+# Локатор музичного гурта (назви) стандарт, XPATH
+//div[@id="contents"]/ytmusic-responsive-list-item-renderer[1]/div[2]/div[3]/yt-formatted-string[1]/a
+# Локатор музичного гурта (назви) стандарт, full XPATH
+/html/body/ytmusic-app/ytmusic-app-layout/div[4]/ytmusic-browse-response/div[2]/div[4]/ytmusic-section-list-renderer/div[2]/ytmusic-playlist-shelf-renderer/div[1]/ytmusic-responsive-list-item-renderer[1]/div[2]/div[3]/yt-formatted-string[1]/a
+
+# XPATH вручну
+//a[contains(@class="some class name")] # обере всі елементи посилань (тег 'a') в атрибуті "class" яких є текст 'some class name'
+//a[starts-with(@class="some class name")] # обере всі елементи посилань (тег 'a') атрибут "class" яких починається текстом 'some class name'
+//a[ends-with(@class="some class name")] # # обере всі елементи посилань (тег 'a') атрибут "class" яких закінчується текстом 'some class name'
+
+# XPATH вручну для назви гурта (поверне кілька елементів)
+//a[text()="Okean Elzy"]
+# XPATH вручну для назви гурта (поверне один елемент, перший)
+(//a[text()="Okean Elzy"])[1]
+
+# Піднятися на один рівень вище
+//a[text()="Okean Elzy"]/..
+
+# Піднятися на два рівні вище
+//a[text()="Okean Elzy"]/../..
+
+# Піднятися від назви гурта до контейнера, а потім заглибитись до композиції
+//a[text()="Antytila"]//ancestor::ytmusic-responsive-list-item-renderer//a[contains(@href, "watch")]
+
+# Знайти конкретну пісню конкретного гурту
+//a[text()="Antytila"]//ancestor::ytmusic-responsive-list-item-renderer//a[text()='Люди як кораблі']
+//a[text()="Antytila"]//ancestor::ytmusic-responsive-list-item-renderer//a[contains(@href, "watch")][text()='Люди як кораблі']
