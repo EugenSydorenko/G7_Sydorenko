@@ -61,4 +61,4 @@ class TestTextBox:
             user_data.get('curr_addr')).set_perm_addr(user_data.get('perm_addr')).submit()
         email_field_attribute = page.get_email_field_attribute('class')
 
-        assert page.check_if_output_test_areas_exist() == False and 'field-error' in email_field_attribute
+        assert all([not page.check_if_output_test_areas_exist(), 'field-error' in email_field_attribute])

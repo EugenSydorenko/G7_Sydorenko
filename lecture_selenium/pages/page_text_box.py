@@ -1,6 +1,8 @@
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class PageTextBox:
@@ -75,7 +77,12 @@ class PageTextBox:
         return field.text.split(':')[1].strip()
 
     def submit(self):
-        self.driver.execute_script('arguments[0].scrollIntoView(true);', *self.__submit_btn_loc)
+        wait = WebDriverWait(self.__driver, 10)
+        element = wait.until(expected_conditions.visibility_of_element_located(self.__submit_btn_loc))
+
+        # Scroll to the element using JavaScript
+        self.__driver.execute_script('arguments[0].scrollIntoView(true);', element)
+
         button = self.__driver.find_element(*self.__submit_btn_loc)
         button.click()
 
