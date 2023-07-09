@@ -18,6 +18,17 @@ class PageRadioButton:
         button_elements = self.driver.find_elements(*self.radio_button_loc)
         return [el.text for el in button_elements]
 
+    def get_radio_button_selections(self):
+        radio_buttons = self.driver.find_elements(By.XPATH, '//input[@type="radio"]')
+        selections = {}
+
+        for button in radio_buttons:
+            button_id = button.get_attribute('id')
+            is_selected = button.is_selected()
+            selections[button_id] = is_selected
+
+        return selections
+
     def check(self, button_name: str) -> None:
         root_loc = self.target_radio_button_xpath.format(button_name)
         label_loc = root_loc + '//label'
@@ -28,7 +39,23 @@ class PageRadioButton:
             label_el.click()
 
     def check_if_radio_button_was_selected_by_name(self, button_name: str) -> bool:
-        css_selector = 'span.text-success:contains("{0}")'.format(button_name)
-        is_radio_button_result_message_displayed = self.driver.find_element(By.CSS_SELECTOR,
-                                                                            css_selector).is_displayed()
-        return is_radio_button_result_message_displayed
+        radio_xpath = "//span[@class='text-success'][contains(text(),'{0}')]".format(button_name)
+        radio_button_result_message = self.driver.find_element(By.XPATH, radio_xpath)
+        if radio_button_result_message.is_displayed():
+            return True
+        else:
+            return False
+
+    def check_disabled_radio_button(self) -> None:
+        label = self.driver.find_element(By.CSS_SELECTOR, 'label.custom-control-label.disabled[for="noRadio"]')
+        radio_button = self.driver.find_element(By.ID, 'noRadio')
+
+        self.driver.execute_script("""
+            arguments[0].classList.remove('disabled');
+            arguments[1].removeAttribute('disabled');
+            arguments[1].click();
+            """, label, radio_button)
+
+    def is_disabled_radio_button_was_selected(self) -> bool:
+        radio_button = self.driver.find_element(By.ID, 'noRadio')
+        return radio_button.is_selected()
