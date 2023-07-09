@@ -26,3 +26,9 @@ class PageRadioButton:
         input_el = self.driver.find_element(By.XPATH, input_loc)
         if not input_el.is_selected():
             label_el.click()
+
+    def check_if_radio_button_was_selected_by_name(self, button_name: str) -> bool:
+        css_selector = 'span.text-success:contains("{0}")'.format(button_name)
+        is_radio_button_result_message_displayed = self.driver.find_element(By.CSS_SELECTOR,
+                                                                            css_selector).is_displayed()
+        return is_radio_button_result_message_displayed

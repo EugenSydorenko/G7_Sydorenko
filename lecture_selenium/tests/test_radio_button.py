@@ -12,11 +12,12 @@ class TestRadioButton:
         assert len(page.get_all_possible_radio_buttons()) == 3
 
     def test_select_button(self):
-        button_name = 'Impressive'
+        button_name = 'Yes'
         page = PageRadioButton(self.driver)
         page.open()
         page.check(button_name)
-        pass
+        print('Result is ',page.check_if_radio_button_was_selected_by_name(button_name))
+        assert page.check_if_radio_button_was_selected_by_name(button_name)
 
     def test_select_button(self):
         button_name = 'Impressive'
