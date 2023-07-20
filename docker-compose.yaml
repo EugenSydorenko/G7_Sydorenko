@@ -1,0 +1,22 @@
+version: "3"
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: jenkins.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./reports:/reports
+
+  selenium:
+    build:
+      context: .
+      dockerfile: selenium.Dockerfile
+    volumes:
+      - ./reports:/reports
+    depends_on:
+      - jenkins
+    command: tail -f /dev/null
